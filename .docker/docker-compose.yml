@@ -2,19 +2,19 @@ version: '3.7'
 name: sze
 
 services:
-  php-sze:
-    image: php-sze/php-sze
-    container_name: php-sze
+  php-sze-vizsga:
+    image: php-sze-vizsga/php-sze-vizsga
+    container_name: php-sze-vizsga
     build: .
     ports:
-      - "29085:80"
+      - "29083:80"
     volumes:
       - "..:/var/www/"
 
-  mysql-local:
+  mysql-local-vizsga:
     image: mariadb:10.9
     #    image: mysql:8.0.27
-    container_name: mysql-local
+    container_name: mysql-local-vizsga
     ports:
       - "3306:3306"
     expose:
@@ -23,19 +23,19 @@ services:
       MYSQL_ROOT_PASSWORD: a
     #    command: mysqld --default-authentication-plugin=mysql_native_password
     volumes:
-      - mysql-sze:/var/lib/mysql
+      - mysql-sze-vizsga:/var/lib/mysql
 
   adminer-local:
     image: adminer
     container_name: adminer-local
     ports:
-      - "29084:8080"
+      - "29082:8080"
     environment:
       - ADMINER_DESIGN=lucas-sandery
-      - ADMINER_DEFAULT_SERVER=mysql-local
+      - ADMINER_DEFAULT_SERVER=mysql-local-vizsga
     depends_on:
-      - mysql-local
+      - mysql-local-vizsga
 
 volumes:
-  mysql-sze:
+  mysql-sze-vizsga:
     driver: local
